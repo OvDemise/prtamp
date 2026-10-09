@@ -1,0 +1,110 @@
+[
+    {
+        "UpdateStageName": "Create Game Files Directory",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}game/halo3/maps",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Create Maps Directory",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}content/Maps",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Create Game Modes Directory",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}content/Game Modes",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Create Mods Directory",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}content/Mods",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Create Playlists Directory",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "CreateDirectory",
+        "UpdateSourceArgs": "{{$FullBaseDir}}playlists",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Prepare Download Folder",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"rm -rf \\\"{{$FullBaseDir}}.download\\\" && mkdir -p \\\"{{$FullBaseDir}}.download\\\"\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Project Reclaimer Download (Dedicated Build)",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "FetchURLFromJQ",
+        "UpdateSourceData": "https://api.github.com/repos/ProjectReclaimer/project-reclaimer-releases/releases/{{ReleaseTag}}",
+        "UpdateSourceArgs": "$.assets[?(@.name =~ /^project-reclaimer-dedicated-.*\\.exe$/)].browser_download_url",
+        "UpdateSourceTarget": "{{$FullBaseDir}}.download",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": true,
+        "UpdateSourceConditionSetting": "ServerBuild",
+        "UpdateSourceConditionValue": "dedicated",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Project Reclaimer Download (Client Build)",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "FetchURLFromJQ",
+        "UpdateSourceData": "https://api.github.com/repos/ProjectReclaimer/project-reclaimer-releases/releases/{{ReleaseTag}}",
+        "UpdateSourceArgs": "$.assets[?(@.name =~ /^project-reclaimer-v[0-9].*\\.exe$/)].browser_download_url",
+        "UpdateSourceTarget": "{{$FullBaseDir}}.download",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": true,
+        "UpdateSourceConditionSetting": "ServerBuild",
+        "UpdateSourceConditionValue": "client",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Install Project Reclaimer",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"cd \\\"{{$FullBaseDir}}\\\" && f=$(ls -1 .download/*.exe 2>/dev/null | head -n1) && [ -n \\\"$f\\\" ] && echo \\\"Installing $(basename \\\"$f\\\")\\\" && mv -f \\\"$f\\\" project-reclaimer.exe && rm -rf .download\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "dedicated.toml Template Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "{{TemplateURL}}",
+        "UpdateSourceArgs": "AMP_dedicated.toml",
+        "UpdateSourceTarget": "{{$FullRootDir}}",
+        "OverwriteExistingFiles": true,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Initialise Wine",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"WINEPREFIX=\\\"{{$FullRootDir}}.wine\\\" WINEARCH=win64 WINEDEBUG=-all /usr/bin/wineboot --init --update\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "Install Visual C++ 2015-2022 Runtime",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"cd \\\"{{$FullRootDir}}\\\" && if [ -f .wine/.amp_vcrun2022 ]; then echo \\\"VC++ runtime already installed\\\"; exit 0; fi; rm -f winetricks; wget -q https://raw.githubusercontent.com/Winetricks/winetricks/refs/tags/20260125/src/winetricks && chmod +x winetricks && export WINEPREFIX=\\\"{{$FullRootDir}}.wine\\\" WINEARCH=win64 WINEDEBUG=-all && /usr/bin/xvfb-run -a ./winetricks -q vcrun2022 > winetricks_log.txt 2>&1 && touch .wine/.amp_vcrun2022; rc=$?; rm -rf ~/.cache/winetricks; exit $rc\"",
+        "SkipOnFailure": false
+    }
+]

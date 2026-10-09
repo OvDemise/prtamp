@@ -1,0 +1,16 @@
+[
+    {
+        "Protocol": "UDP",
+        "Port": 49176,
+        "Ref": "GamePort",
+        "Name": "Game Port",
+        "Description": "UDP port players join on. The Server Browser also queries the server here, and mod downloads from the server use it"
+    },
+    {
+        "Protocol": "TCP",
+        "Port": 49276,
+        "Ref": "RCONPort",
+        "Name": "RCON Port",
+        "Description": "TCP remote console (Source RCON and WebSocket on the same port). AMP's console uses it. Listens on 127.0.0.1 unless RCON Listen Address is changed"
+    }
+]

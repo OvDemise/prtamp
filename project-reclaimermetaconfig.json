@@ -1,0 +1,8 @@
+[
+    {
+        "ConfigFile": "dedicated.toml",
+        "AutoMap": true,
+        "ConfigType": "template",
+        "ConfigFileTemplate": "project-reclaimer/AMP_dedicated.toml"
+    }
+]
