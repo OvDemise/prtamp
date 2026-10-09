@@ -92,6 +92,17 @@
         "SkipOnFailure": false
     },
     {
+        "UpdateStageName": "Steam Sign-in",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "SteamCMD",
+        "UpdateSourceData": "1007",
+        "UpdateSourceTarget": "steam-signin",
+        "ForceDownloadPlatform": "Windows",
+        "UpdateSourceConditionSetting": "GameFilesSource",
+        "UpdateSourceConditionValue": "steamcmd",
+        "SkipOnFailure": false
+    },
+    {
         "UpdateStageName": "Halo 3 Files Script Download",
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "FetchURL",
@@ -108,7 +119,7 @@
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "\"{{$FullRootDir}}project-reclaimergamefiles.sh\" \"{{$FullRootDir}}\" \"{{$FullBaseDir}}\" \"{{SteamUsername}}\" \"{{SteamPassword}}\" \"{{SteamGuardCode}}\" \"{{IncludeCampaign}}\" \"{{IncludeBaseDepot}}\"",
+        "UpdateSourceArgs": "\"{{$FullRootDir}}project-reclaimergamefiles.sh\" \"{{$FullRootDir}}\" \"{{$FullBaseDir}}\" \"{{SteamUsername}}\" \"\" \"\" \"{{IncludeCampaign}}\" \"{{IncludeBaseDepot}}\"",
         "UpdateSourceConditionSetting": "GameFilesSource",
         "UpdateSourceConditionValue": "steamcmd",
         "SkipOnFailure": false
