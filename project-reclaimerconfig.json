@@ -520,17 +520,17 @@
         "EnumValues": {}
     },
     {
-        "DisplayName": "Template URL",
+        "DisplayName": "Template Repo Raw URL",
         "Category": "Project Reclaimer:stadia_controller",
         "Subcategory": "Advanced:settings:4",
-        "Description": "Where Update downloads the dedicated.toml template (project-reclaimerdedicated.toml). Point it at the raw file in your AMPTemplates fork.",
-        "Keywords": "template,url",
-        "FieldName": "TemplateURL",
+        "Description": "Raw URL of the folder in your template repo that holds project-reclaimerdedicated.toml and project-reclaimergamefiles.sh, ending in a slash. Update downloads both from here.",
+        "Keywords": "template,url,repo,github",
+        "FieldName": "RepoBaseURL",
         "InputType": "url",
         "IsFlagArgument": false,
-        "ParamFieldName": "TemplateURL",
+        "ParamFieldName": "RepoBaseURL",
         "IncludeInCommandLine": false,
-        "DefaultValue": "https://raw.githubusercontent.com/YOUR-GITHUB-USER/AMPTemplates/main/project-reclaimerdedicated.toml",
+        "DefaultValue": "https://raw.githubusercontent.com/YOUR-GITHUB-USER/AMPTemplates/main/",
         "EnumValues": {}
     },
     {
@@ -561,5 +561,100 @@
         "IncludeInCommandLine": false,
         "DefaultValue": "",
         "EnumValues": {}
+    },
+    {
+        "DisplayName": "Halo 3 Files Source",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Where the server's Halo 3 files come from. 'SteamCMD' downloads only the Halo 3 depots of MCC (about 7-14 GB, not the whole 136 GB collection) using an account that owns MCC. 'Upload' means you copy the game/ folder made by 'dedicated init' yourself.",
+        "Keywords": "steam,steamcmd,game,files,halo,mcc,download",
+        "FieldName": "GameFilesSource",
+        "InputType": "enum",
+        "IsFlagArgument": false,
+        "ParamFieldName": "GameFilesSource",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "upload",
+        "EnumValues": {
+            "upload": "Upload them myself (default)",
+            "steamcmd": "Download with SteamCMD (needs an MCC-owning Steam account)"
+        }
+    },
+    {
+        "DisplayName": "Steam Username",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Steam account that owns Halo: The Master Chief Collection. Only the account name.",
+        "Keywords": "steam,username,login,account",
+        "FieldName": "SteamUsername",
+        "InputType": "text",
+        "IsFlagArgument": false,
+        "ParamFieldName": "SteamUsername",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "Placeholder": "mysteamaccount",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Steam Password",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Needed only for the first download. After a successful Update, clear it: SteamCMD keeps a sign-in token in the instance's .steam-home folder. Must not contain ' \" or \\ characters.",
+        "Keywords": "steam,password,login",
+        "FieldName": "SteamPassword",
+        "InputType": "password",
+        "IsFlagArgument": false,
+        "ParamFieldName": "SteamPassword",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Steam Guard Code",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Only if Steam emails you a code or you use authenticator codes instead of approving in the Steam Mobile app. Enter it and run Update straight away, then clear it.",
+        "Keywords": "steam,guard,code,2fa",
+        "FieldName": "SteamGuardCode",
+        "InputType": "text",
+        "IsFlagArgument": false,
+        "ParamFieldName": "SteamGuardCode",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "Placeholder": "ABC12",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Include Halo 3 Campaign Depot",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Downloads the Halo 3 campaign depot (~7 GB) too. Needed for Forge's campaign vehicles and AI (campaign.map, 040_voi.map), Flood Infection and UNSC vs Covenant.",
+        "Keywords": "campaign,depot,forge,flood",
+        "FieldName": "IncludeCampaign",
+        "InputType": "checkbox",
+        "IsFlagArgument": false,
+        "ParamFieldName": "IncludeCampaign",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "true",
+        "EnumValues": {
+            "False": "false",
+            "True": "true"
+        }
+    },
+    {
+        "DisplayName": "Include MCC Base Depot",
+        "Category": "Project Reclaimer:stadia_controller",
+        "Subcategory": "Halo 3 Files:download:5",
+        "Description": "Also downloads the MCC base depot (~10 GB). Leave off unless Update reports that game/halo3/halo3.dll is missing.",
+        "Keywords": "base,depot,mcc",
+        "FieldName": "IncludeBaseDepot",
+        "InputType": "checkbox",
+        "IsFlagArgument": false,
+        "ParamFieldName": "IncludeBaseDepot",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "false",
+        "EnumValues": {
+            "False": "false",
+            "True": "true"
+        }
     }
 ]
